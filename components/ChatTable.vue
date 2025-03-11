@@ -12,7 +12,6 @@
           {{ tab }}
         </div>
       </div>
-
       <div class="search-container">
         <div class="search-box">
           <input
@@ -44,8 +43,11 @@
               >
                 <p class="header-label base__font">{{ header.label }}</p>
                 <span v-if="index !== 0" class="sort-icon">
-                  <ISort class="ISort" style="width: 16px; height: 16px" 
-                  :fontControlled="false" />
+                  <ISort
+                    class="ISort"
+                    style="width: 16px; height: 16px"
+                    :fontControlled="false"
+                  />
                 </span>
               </div>
             </th>
@@ -358,11 +360,7 @@ const filteredAndSortedData = computed(() => {
       item.message_sent == null
     )
       return false;
-
-    // Convert item date to timestamp
     const itemDate = new Date(item.date_created).getTime();
-
-    // Convert filter dates to timestamps
     const dateFrom = filterCriteria.value.dateFrom
       ? new Date(
           filterCriteria.value.dateFrom.replace(/(\d{2}) - (\d{2}) - (\d{4})/, "$3-$2-$1")
@@ -373,27 +371,19 @@ const filteredAndSortedData = computed(() => {
           filterCriteria.value.dateTo.replace(/(\d{2}) - (\d{2}) - (\d{4})/, "$3-$2-$1")
         ).getTime()
       : null;
-
-    // Apply date filters
     if (dateFrom !== null && itemDate < dateFrom) return false;
     if (dateTo !== null && itemDate > dateTo) return false;
-
-    // Extract and convert media storage filter (from MB to Bytes)
     let minStorage = 0,
       maxStorage = Infinity;
     if (filterCriteria.value.mediaStorage) {
       const storageValues = filterCriteria.value.mediaStorage
         .split("-")
         .map((s: string) => parseFloat(s.trim()));
-      minStorage = (storageValues[0] ?? 0) * 1024 * 1024; // Convert MB to Bytes
-      maxStorage = (storageValues[1] ?? Infinity) * 1024 * 1024; // Convert MB to Bytes
+      minStorage = (storageValues[0] ?? 0) * 1024 * 1024;
+      maxStorage = (storageValues[1] ?? Infinity) * 1024 * 1024;
     }
-
-    // Apply media storage filter
     if (item.media_storage_used < minStorage || item.media_storage_used > maxStorage)
       return false;
-
-    // Extract message range
     let minMessages = 0,
       maxMessages = Infinity;
     if (filterCriteria.value.messages) {
@@ -403,10 +393,7 @@ const filteredAndSortedData = computed(() => {
       minMessages = messageValues[0] ?? 0;
       maxMessages = messageValues[1] ?? Infinity;
     }
-
-    // Apply message filter
     if (item.message_sent < minMessages || item.message_sent > maxMessages) return false;
-
     return true;
   });
 });
