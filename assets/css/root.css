@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap');
+
+.flex {
+  display: flex;
+}
+
+*,
+.base__font,
+canvas,
+p,
+span,
+button,
+a {
+  font-family: "Hanken Grotesk", sans-serif;
+}
+
+.circle {
+  align-items: center;
+  justify-content: center;
+  width: var(--width, 42px);
+  height: var(--height, 42px);
+  border-radius: 100px;
+  background-color: var(--bg, #f5f7fc);
+  transition: all 0.3s ease-in;
+  cursor: pointer;
+}
+
+.circle:hover {
+  background-color: #e5e8ee;
+}
+
+.btn {
+  border: none;
+}
+
+.hr {
+  height: 1px;
+  width: 100%;
+  background-color: #D3D7EA;
+}
+
+
+::-webkit-scrollbar {
+  width: 6px;  
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #888; 
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #bbb #f1f1f1; 
+}
+
+
+.ILogo.nuxt-icon--fill * {
+    fill: revert-layer !important;
+  }
+.IVector.nuxt-icon--fill * {
+    fill: revert-layer !important;
+  }
+.IChevronDown.nuxt-icon--fill * {
+    fill: #0068FF !important;
+  }
+.IFixcircle.nuxt-icon--fill * {
+    fill: transparent !important;
+  }
+.IRefresh.nuxt-icon--fill * {
+    fill: transparent !important;
+  }
+.ISort.nuxt-icon--fill * {
+    fill: #9999BC !important;
+  }

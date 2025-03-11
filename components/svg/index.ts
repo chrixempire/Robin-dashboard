@@ -1,0 +1,11 @@
+export { default as ILogo } from './logo.svg';
+export { default as IVector} from './Vector.svg';
+export { default as IProfile} from './user-circle.svg';
+export { default as IChevronDown} from './chevron.svg';
+export { default as IThreedots} from './three-dots.svg';
+export { default as ISearch} from './search.svg';
+export { default as ISort} from './Sort.svg';
+export { default as IFixcircle} from './fix-circle.svg';
+export { default as IFilter} from './filter.svg';
+export { default as IEye} from './eye.svg';
+export { default as IRefresh} from './refresh.svg';
