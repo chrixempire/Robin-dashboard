@@ -23,7 +23,6 @@ let chart: Chart | null = null;
 
 const initChart = async () => {
   await nextTick(); 
-
   if (chartRef.value) {
     const ctx = chartRef.value.getContext('2d');
     if (ctx) {

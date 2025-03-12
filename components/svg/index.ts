@@ -9,3 +9,4 @@ export { default as IFixcircle} from './fix-circle.svg';
 export { default as IFilter} from './filter.svg';
 export { default as IEye} from './eye.svg';
 export { default as IRefresh} from './refresh.svg';
+export { default as ILogout} from './log-out.svg';

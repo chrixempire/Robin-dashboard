@@ -43,8 +43,10 @@
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { ILogo, IVector } from "~/components/svg";
+
 const emit = defineEmits(['collapse'])
 const router = useRouter();
+
 const menuSections = computed(() => [
   { name: "Get started", link: "", icon: "get-started", isLink: false },
   { name: "Analytics", link: "/analytics", icon: "analytics", isLink: true },
@@ -57,6 +59,7 @@ const menuSections = computed(() => [
 function collapse(){
   emit('collapse')
 }
+
 </script>
 
 <style scoped>

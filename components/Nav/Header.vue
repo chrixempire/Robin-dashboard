@@ -2,7 +2,11 @@
   <header class="header">
     <div class="header-left">
       <div class="circle flex" @click="returnBack" v-if="collapsed">
-        <IVector class="IVector" :fontControlled="false" :style="{ transform: 'rotate(90deg)'}" />
+        <IVector
+          class="IVector"
+          :fontControlled="false"
+          :style="{ transform: 'rotate(90deg)' }"
+        />
       </div>
       <span class="greeting">Hello Ayomide <span class="wave">👋</span></span>
     </div>
@@ -15,15 +19,13 @@
           <div class="circle flex">
             <p class="ao">AO</p>
           </div>
-          <IChevronDown 
+          <IChevronDown
             class="IChevronDown"
             :fontControlled="false"
             :class="{ rotate: isDropdownOpen }"
-            style="width: 8px; height: 8px;"
+            style="width: 8px; height: 8px"
           />
         </button>
-
-        <!-- Dropdown Menu -->
         <transition name="slide-fade">
           <div class="dropdown-details" v-if="isDropdownOpen">
             <div class="user-info">
@@ -36,17 +38,12 @@
               Profile
             </button>
             <button class="dropdown-items logout">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16" height="16"
-                viewBox="0 0 24 24"
-                fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              >
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                <polyline points="16 17 21 12 16 7"></polyline>
-                <line x1="21" y1="12" x2="9" y2="12"></line>
-              </svg>
+         
+              <ILogout
+                class="ILogout"
+                :fontControlled="false"
+                style="width: 16px; height: 16px"
+              />
               Logout
             </button>
           </div>
@@ -58,27 +55,29 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-import { IChevronDown, IProfile } from "~/components/svg";
-import { ILogo, IVector } from "~/components/svg";
-
+import { IChevronDown, IProfile, ILogout } from "~/components/svg";
+import {  IVector } from "~/components/svg";
 
 defineProps({
   collapsed: {
     type: Boolean,
-    required: false
-  }
-})
+    required: false,
+  },
+});
+
 const isDropdownOpen = ref(false);
 const profileRef = ref<HTMLElement | null>(null);
-  const emit = defineEmits(['returnBack'])
-  function returnBack(){
-  emit('returnBack')
+const emit = defineEmits(["returnBack"]);
+
+function returnBack() {
+  emit("returnBack");
 }
-const toggleDropdown = () => {
+
+function toggleDropdown() {
   isDropdownOpen.value = !isDropdownOpen.value;
 };
 
-const handleClickOutside = (event: MouseEvent) => {
+function handleClickOutside(event: MouseEvent){
   if (profileRef.value && !profileRef.value.contains(event.target as Node)) {
     isDropdownOpen.value = false;
   }
@@ -100,7 +99,7 @@ onUnmounted(() => {
   align-items: center;
   padding: 20px 50px;
   background: #f3f7ff;
-  border-bottom: 1px solid #E7E9FF;
+  border-bottom: 1px solid #e7e9ff;
 }
 
 .IVector {
@@ -116,7 +115,7 @@ onUnmounted(() => {
 
 .greeting {
   font-size: 16px;
-  color: #9999BC;
+  color: #9999bc;
   font-weight: 400;
   line-height: 24px;
 }
@@ -195,7 +194,7 @@ onUnmounted(() => {
   background: white;
   border-radius: 8px;
   box-shadow: 0 4px 6px -2px rgba(16, 24, 40, 0.05),
-              0 12px 16px -4px rgba(16, 24, 40, 0.1);
+    0 12px 16px -4px rgba(16, 24, 40, 0.1);
   width: 240px;
   padding: 8px;
   z-index: 50;
@@ -252,10 +251,12 @@ onUnmounted(() => {
   background: #fef3f2;
 }
 
-.slide-fade-enter-active, .slide-fade-leave-active {
+.slide-fade-enter-active,
+.slide-fade-leave-active {
   transition: all 0.3s ease;
 }
-.slide-fade-enter-from, .slide-fade-leave-to {
+.slide-fade-enter-from,
+.slide-fade-leave-to {
   opacity: 0;
   transform: translateY(-10px);
 }
@@ -265,30 +266,48 @@ onUnmounted(() => {
     padding: 6px 25px;
     font-size: 14px;
   }
+  .header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
 }
 
 @media (max-width: 600px) {
   .download-btn {
-    padding: 6px 20px;
+    padding: 5px 10px;
     font-size: 13px;
     border-radius: 25px;
   }
   .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #f3f7ff;
+    border-bottom: 1px solid #e7e9ff;
+  }
+
+  .header-right {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 20px ;
-  background: #f3f7ff;
-  border-bottom: 1px solid #E7E9FF;
+  gap: 10px;
 }
+
 }
 
 @media (max-width: 480px) {
   .download-btn {
-    padding: 5px 15px;
+    padding: 4px;
     font-size: 12px;
     border-radius: 20px;
   }
+  .header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 }
 </style>

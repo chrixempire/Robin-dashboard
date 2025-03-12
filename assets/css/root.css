@@ -83,3 +83,7 @@ a {
 .ISort.nuxt-icon--fill * {
     fill: #9999BC !important;
   }
+.ILogout.nuxt-icon--fill * {
+  fill: transparent !important;
+    stroke: #b42318 !important;
+  }

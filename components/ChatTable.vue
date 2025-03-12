@@ -103,8 +103,7 @@
                     :class="{
                       'dropdown-menu-active': activeDropdown === index,
                       'dropdown-menu-up': index >= sortedData.length - 2,
-                    }"
-                  >
+                    }">
                     <div class="dropdown-item" @click="viewItem(item)">
                       <IEye
                         class="IEye"
@@ -234,16 +233,8 @@ interface TableHeader {
 
 const showModal = ref(false);
 const tabs = ref(["Direct Messages", "Groups"]);
+const filterCriteria = ref<any>(null);
 const activeTab = ref(0);
-
-const headers = ref<TableHeader[]>([
-  { key: "full_name", label: "USERS" },
-  { key: "message_sent", label: "MESSAGES SENT" },
-  { key: "media_storage_used", label: "MEDIA STORAGE USED" },
-  { key: "date_created", label: "DATE CREATED" },
-  { key: "media_sent", label: "MEDIA SENT" },
-]);
-
 const data = ref<MessageData[]>([]);
 const loading = ref(true);
 const error = ref<string | null>(null);
@@ -258,8 +249,15 @@ const sortDirection = ref<"asc" | "desc">(
 );
 const limit = ref(5);
 const activeDropdown = ref<number | null>(null);
+const headers = ref<TableHeader[]>([
+  { key: "full_name", label: "USERS" },
+  { key: "message_sent", label: "MESSAGES SENT" },
+  { key: "media_storage_used", label: "MEDIA STORAGE USED" },
+  { key: "date_created", label: "DATE CREATED" },
+  { key: "media_sent", label: "MEDIA SENT" },
+]);
 
-const toggleDropdown = (index: number) => {
+function toggleDropdown(index: number){
   if (activeDropdown.value === index) {
     activeDropdown.value = null;
   } else {
@@ -267,11 +265,11 @@ const toggleDropdown = (index: number) => {
   }
 };
 
-const closeDropdown = () => {
+function closeDropdown(){
   activeDropdown.value = null;
 };
 
-const handleClickOutside = (event: MouseEvent) => {
+function handleClickOutside(event: MouseEvent){
   if (activeDropdown.value !== null) {
     const dropdowns = document.querySelectorAll(".dropdown-container");
     let clickedInside = false;
@@ -286,14 +284,66 @@ const handleClickOutside = (event: MouseEvent) => {
   }
 };
 
-const viewItem = (item: MessageData) => {
-  console.log("View item:", item);
+function viewItem(item: MessageData){
   closeDropdown();
 };
 
-const disableItem = (item: MessageData) => {
-  console.log("Disable item:", item);
+function disableItem(item: MessageData){
   closeDropdown();
+};
+
+function applyFilters(filters: any) {
+  console.log(filters);
+  filterCriteria.value = filters;
+}
+
+function updateUrlParams() {
+  router.push({
+    query: {
+      page: currentPage.value,
+      sort: sortColumn.value,
+      order: sortDirection.value,
+    },
+  });
+};
+
+function sortBy(column: string){
+  if (loading.value) return;
+  if (sortColumn.value === column) {
+    sortDirection.value = sortDirection.value === "asc" ? "desc" : "asc";
+  } else {
+    sortColumn.value = column;
+    sortDirection.value = "desc";
+  }
+  updateUrlParams();
+};
+
+function goToPage (page: number) {
+  if (page < 1 || page > totalPages.value || loading.value) return;
+  currentPage.value = page;
+  updateUrlParams();
+};
+
+async function fetchData(){
+  loading.value = true;
+  data.value = [];
+  error.value = null;
+  try {
+    const response = await axios.get<ApiResponse>(
+      `https://sfe-m3if.onrender.com/api/v1/messages?page=${currentPage.value}&limit=${limit.value}`
+    );
+    data.value = response.data.data;
+    totalPages.value = response.data.totalPages;
+    hasPrevPage.value = response.data.hasPrevPage;
+    hasNextPage.value = response.data.hasNextPage;
+  } catch (err) {
+    error.value = "Failed to fetch data";
+    console.error(err);
+  } finally {
+    setTimeout(() => {
+      loading.value = false;
+    }, 600);
+  }
 };
 
 const filteredData = computed(() => {
@@ -342,13 +392,6 @@ const sortedData = computed(() => {
     }
   });
 });
-
-function applyFilters(filters: any) {
-  console.log(filters);
-  filterCriteria.value = filters;
-}
-
-const filterCriteria = ref<any>(null);
 
 const filteredAndSortedData = computed(() => {
   if (!filterCriteria.value) return sortedData.value;
@@ -425,55 +468,6 @@ const displayedPages = computed(() => {
 const showEllipsis = computed(() => {
   return totalPages.value > 5 && !displayedPages.value.includes(totalPages.value - 1);
 });
-
-const fetchData = async () => {
-  loading.value = true;
-  data.value = [];
-  error.value = null;
-  try {
-    const response = await axios.get<ApiResponse>(
-      `https://sfe-m3if.onrender.com/api/v1/messages?page=${currentPage.value}&limit=${limit.value}`
-    );
-    data.value = response.data.data;
-    totalPages.value = response.data.totalPages;
-    hasPrevPage.value = response.data.hasPrevPage;
-    hasNextPage.value = response.data.hasNextPage;
-  } catch (err) {
-    error.value = "Failed to fetch data";
-    console.error(err);
-  } finally {
-    setTimeout(() => {
-      loading.value = false;
-    }, 600);
-  }
-};
-
-const updateUrlParams = () => {
-  router.push({
-    query: {
-      page: currentPage.value,
-      sort: sortColumn.value,
-      order: sortDirection.value,
-    },
-  });
-};
-
-const sortBy = (column: string) => {
-  if (loading.value) return;
-  if (sortColumn.value === column) {
-    sortDirection.value = sortDirection.value === "asc" ? "desc" : "asc";
-  } else {
-    sortColumn.value = column;
-    sortDirection.value = "desc";
-  }
-  updateUrlParams();
-};
-
-const goToPage = (page: number) => {
-  if (page < 1 || page > totalPages.value || loading.value) return;
-  currentPage.value = page;
-  updateUrlParams();
-};
 
 watch([currentPage], () => {
   fetchData();

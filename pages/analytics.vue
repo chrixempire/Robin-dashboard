@@ -145,18 +145,10 @@ const metrics = ref<Metric[]>([
   { id: 4, label: "Peak Concurrency This Month", value: 0 },
   { id: 5, label: "Dashboard", value: 0 },
 ]);
-
-const chartTitle = computed(() => {
-  return selectedActivity.value === "All Activities"
-    ? "Active Users"
-    : selectedActivity.value;
-});
-
 const chartData = ref({
   labels: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
   values: [0, 0, 0, 0, 0, 0, 0],
 });
-
 const monthlyLineColor = "#10B981";
 const monthlyBackgroundColor = "rgba(16, 185, 129, 0.1)";
 const monthlyChartData = ref({
@@ -164,7 +156,13 @@ const monthlyChartData = ref({
   values: [0, 0, 0, 0, 0, 0, 0],
 });
 
-const generateGraphData = (period: string, activity: string) => {
+const chartTitle = computed(() => {
+  return selectedActivity.value === "All Activities"
+    ? "Active Users"
+    : selectedActivity.value;
+});
+
+function generateGraphData (period: string, activity: string){
   let maxValue = 500;
   switch (period) {
     case "7 Days":
@@ -203,7 +201,7 @@ const generateGraphData = (period: string, activity: string) => {
   };
 };
 
-const generateTrendingData = (activity: string) => {
+function generateTrendingData (activity: string) {
   let baseValue = 350;
   let variance = 50;
   if (activity !== "All Activities") {
@@ -223,7 +221,7 @@ const generateTrendingData = (activity: string) => {
   };
 };
 
-const toggleDropdown = (type: "period" | "activity") => {
+function toggleDropdown(type: "period" | "activity"){
   isPeriodDropdownOpen.value = false;
   isActivityDropdownOpen.value = false;
 
@@ -234,11 +232,11 @@ const toggleDropdown = (type: "period" | "activity") => {
   }
 };
 
-const toggleMonthlyDropdown = () => {
+function toggleMonthlyDropdown() {
   isDropdownOpen.value = !isDropdownOpen.value;
 };
 
-const updateSelection = (type: "period" | "activity", value: string) => {
+function updateSelection (type: "period" | "activity", value: string){
   if (type === "period") {
     selectedPeriod.value = value;
   } else if (type === "activity") {
@@ -249,13 +247,13 @@ const updateSelection = (type: "period" | "activity", value: string) => {
   isActivityDropdownOpen.value = false;
 };
 
-const updateActivity = (activity: string) => {
+function updateActivity (activity: string){
   selectedMonthlyActivity.value = activity;
   isDropdownOpen.value = false;
   monthlyChartData.value = generateTrendingData(activity);
 };
 
-const handleClickOutside = (event: MouseEvent) => {
+function handleClickOutside (event: MouseEvent) {
   const target = event.target as HTMLElement;
   if (!target.closest(".dropdown")) {
     isPeriodDropdownOpen.value = false;
@@ -264,13 +262,12 @@ const handleClickOutside = (event: MouseEvent) => {
   }
 };
 
-const updateTimeAgo = () => {
+function updateTimeAgo (){
   timeAgo.value = calculateTimeAgo(lastUpdateTime.value);
 };
 
-const handleRefresh = async () => {
+async function handleRefresh (){
   isRefreshing.value = true;
-
   try {
     fetchMetricData();
     chartData.value = generateGraphData(selectedPeriod.value, selectedActivity.value);

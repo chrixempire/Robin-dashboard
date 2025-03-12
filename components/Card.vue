@@ -7,6 +7,7 @@
 </template>
 
 <script setup lang="ts">
+
 interface Props {
   label: string
   value: string | number
@@ -16,6 +17,7 @@ interface Props {
 }
 
 defineProps<Props>()
+
 </script>
 
 <style>

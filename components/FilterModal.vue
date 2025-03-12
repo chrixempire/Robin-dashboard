@@ -95,9 +95,13 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue', 'apply-filters']);
-
 const isOpen = ref(props.modelValue);
 const isClosing = ref(false);
+const selectedTimePeriod = ref('today');
+const dateFrom = ref('');
+const dateTo = ref('');
+const selectedMessages = ref('');
+const selectedMediaStorage = ref('');
 
 const timePeriods = [
   { label: 'Today', value: 'today' },
@@ -119,17 +123,11 @@ const mediaStorageOptions = [
   { label: '1GB+', value: '1000+' }
 ];
 
-const selectedTimePeriod = ref('today');
-const dateFrom = ref('');
-const dateTo = ref('');
-const selectedMessages = ref('');
-const selectedMediaStorage = ref('');
-
-const formatDateForInput = (date: Date): string => {
+function formatDateForInput(date: Date): string  {
   return date.toISOString().split('T')[0]; 
 };
 
-const formatDateForDisplay = (dateString: string): string => {
+function formatDateForDisplay(dateString: string): string{
   if (!dateString) return '';
   try {
     const date = new Date(dateString);
@@ -143,25 +141,24 @@ const formatDateForDisplay = (dateString: string): string => {
   }
 };
 
-const getToday = (): string => {
+function getToday(): string {
   return formatDateForInput(new Date());
 };
 
-const getDaysAgo = (days: number): string => {
+function getDaysAgo (days: number): string {
   const date = new Date();
   date.setDate(date.getDate() - days);
   return formatDateForInput(date);
 };
 
-const getMonthsAgo = (months: number): string => {
+function getMonthsAgo (months: number): string {
   const date = new Date();
   date.setMonth(date.getMonth() - months);
   return formatDateForInput(date);
 };
 
-const updateDatesByTimePeriod = () => {
+function updateDatesByTimePeriod ()  {
   const today = getToday();
-  
   switch (selectedTimePeriod.value) {
     case 'today':
       dateFrom.value = today;
@@ -183,9 +180,42 @@ const updateDatesByTimePeriod = () => {
   
 };
 
-onMounted(() => {
-  updateDatesByTimePeriod();
-});
+function closeModal () {
+  isClosing.value = true;
+  setTimeout(() => {
+    isOpen.value = false;
+    isClosing.value = false;
+  }, 300);
+};
+
+function applyFilters () {
+  const filters = {
+    timePeriod: selectedTimePeriod.value,
+    dateFrom: dateFrom.value ? formatDateForDisplay(dateFrom.value) : '',
+    dateTo: dateTo.value ? formatDateForDisplay(dateTo.value) : '',
+    messages: selectedMessages.value,
+    mediaStorage: selectedMediaStorage.value
+  };
+  emit('apply-filters', filters);
+  closeModal();
+};
+
+function clearFilters (){
+  selectedTimePeriod.value = 'today';
+  updateDatesByTimePeriod(); 
+  selectedMessages.value = '';
+  selectedMediaStorage.value = '';
+
+  const clearedFilters = {
+    timePeriod: 'today',
+    dateFrom: '',
+    dateTo: '',
+    messages: '',
+    mediaStorage: ''
+  };
+  emit('apply-filters', clearedFilters);
+  closeModal();
+};
 
 watch(selectedTimePeriod, () => {
   updateDatesByTimePeriod();
@@ -202,43 +232,9 @@ watch(isOpen, (newVal) => {
   emit('update:modelValue', newVal);
 });
 
-const closeModal = () => {
-  isClosing.value = true;
-  setTimeout(() => {
-    isOpen.value = false;
-    isClosing.value = false;
-  }, 300);
-};
-
-const applyFilters = () => {
-  const filters = {
-    timePeriod: selectedTimePeriod.value,
-    dateFrom: dateFrom.value ? formatDateForDisplay(dateFrom.value) : '',
-    dateTo: dateTo.value ? formatDateForDisplay(dateTo.value) : '',
-    messages: selectedMessages.value,
-    mediaStorage: selectedMediaStorage.value
-  };
-  
-  emit('apply-filters', filters);
-  closeModal();
-};
-
-const clearFilters = () => {
-  selectedTimePeriod.value = 'today';
-  updateDatesByTimePeriod(); 
-  selectedMessages.value = '';
-  selectedMediaStorage.value = '';
-
-  const clearedFilters = {
-    timePeriod: 'today',
-    dateFrom: '',
-    dateTo: '',
-    messages: '',
-    mediaStorage: ''
-  };
-  emit('apply-filters', clearedFilters);
-  closeModal();
-};
+onMounted(() => {
+  updateDatesByTimePeriod();
+});
 </script>
 
 <style scoped>
