@@ -103,7 +103,7 @@ onUnmounted(() => {
 
 <style scoped>
 .chart-container {
-  height: 350px;
+  height: 400px;
   position: relative;
 }
 </style>

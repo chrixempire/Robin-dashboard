@@ -433,11 +433,11 @@ input::placeholder, select option:first-child {
 }
 
 .clear-button:hover {
-  background: #d3d3d3; /* Light grey in hex */
-  color: #ffffff; /* White */
+  background: #d3d3d3; 
+  color: #ffffff; 
 }
 
-/* Responsive styles */
+
 @media (max-width: 768px) {
   .modal-content {
     width: 70%;
@@ -465,7 +465,6 @@ input::placeholder, select option:first-child {
   appearance: none;
 }
 
-/* Hide the calendar icon in some browsers */
 .date-input::-webkit-calendar-picker-indicator {
   opacity: 0;
   width: 100%;

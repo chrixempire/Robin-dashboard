@@ -57,14 +57,14 @@ defineProps({
   max-width: calc(25% - 16px);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .metric-card {
     flex: 1 1 calc(33.333% - 16px);
     max-width: calc(33.333% - 16px);
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .metric-card {
     flex: 1 1 calc(50% - 16px);
     max-width: calc(50% - 16px);

@@ -265,19 +265,26 @@ onUnmounted(() => {
     padding: 6px 25px;
     font-size: 14px;
   }
+
 }
 
-/* Mobile screens */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .download-btn {
     padding: 6px 20px;
     font-size: 13px;
     border-radius: 25px;
   }
+  .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px ;
+  background: #f3f7ff;
+  border-bottom: 1px solid #E7E9FF;
+}
 }
 
-/* Extra small screens */
-@media (max-width: 350px) {
+@media (max-width: 480px) {
   .download-btn {
     padding: 5px 15px;
     font-size: 12px;

@@ -6,6 +6,10 @@
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
 
+definePageMeta({
+  layout: "responsive-sidebar-layout",
+});
+
 const router = useRouter();
 onMounted(() => {
   router.push('/chat');

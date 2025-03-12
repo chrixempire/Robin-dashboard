@@ -8,6 +8,10 @@
 <script setup>
 import ChatMetrics from "~/components/ChatMetrics.vue";
 import ChatTable from "~/components/ChatTable.vue";
+
+definePageMeta({
+  layout: "responsive-sidebar-layout",
+});
 </script>
 
 <style scoped>

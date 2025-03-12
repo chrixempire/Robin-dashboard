@@ -112,6 +112,10 @@ import { IChevronDown, IRefresh } from "~/components/svg";
 import { calculateTimeAgo } from "~/utils/utils.ts";
 import axios from "axios";
 
+definePageMeta({
+  layout: "responsive-sidebar-layout",
+});
+
 interface Metric {
   id: number;
   label: string;

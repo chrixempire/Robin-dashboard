@@ -365,7 +365,7 @@
     stroke: white !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
     .search-tab{
         flex-direction: column;
         gap: 12px;

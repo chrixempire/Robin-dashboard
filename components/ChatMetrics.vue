@@ -68,30 +68,28 @@ onMounted(() => {
 }
 
 .metrics-container > * {
-  flex: 1 1 calc(25% - 13px); /* Default: 4 cards per row */
+  flex: 1 1 calc(25% - 13px); 
   max-width: calc(25% - 13px);
 }
 
-/* When screen size is smaller and can’t fit 4 cards, adjust */
-@media (max-width: 1024px) {
+@media (max-width: 1250px) {
   .metrics-container > * {
-    flex: 1 1 calc(33.33% - 13px); /* 3 cards per row */
+    flex: 1 1 calc(33.33% - 13px); 
     max-width: calc(33.33% - 13px);
   }
 }
 
-/* For smaller tablets */
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .metrics-container > * {
-    flex: 1 1 calc(50% - 13px); /* 2 cards per row */
+    flex: 1 1 calc(50% - 13px);
     max-width: calc(50% - 13px);
   }
 }
 
-/* Extra small screens */
+
 @media (max-width: 480px) {
   .metrics-container > * {
-    flex: 1 1 100%; /* Full width for very small screens */
+    flex: 1 1 100%; 
     max-width: 100%;
   }
 }
